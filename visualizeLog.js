@@ -1,5 +1,5 @@
 /// <reference path="typings/main.d.ts" />
-function handleFileOutput(files, id) {
+function displayFileInfo(files, id) {
     var output = [];
     for (var i = 0; files[i]; ++i) {
         var f = files[i];
@@ -19,12 +19,12 @@ function handleFileDrop(ev) {
     ev.stopPropagation();
     ev.preventDefault();
     var files = ev.dataTransfer.files;
-    handleFileOutput(files, "list_2");
+    displayFileInfo(files, "list_2");
     if (files[0]) {
         var file = files[0];
         var reader_1 = new FileReader();
         reader_1.readAsText(file);
-        reader_1.onload = function () { result = reader_1.result; setLog(); };
+        reader_1.onload = function () { parseLog(reader_1.result); };
     }
 }
 function handleDrag(ev) {
@@ -32,11 +32,7 @@ function handleDrag(ev) {
     ev.preventDefault();
     ev.dataTransfer.dropEffect = 'copy';
 }
-var result;
-var dropZone = document.getElementById('file_drop');
-dropZone.addEventListener('drop', handleFileDrop, false);
-dropZone.addEventListener('dragover', handleDrag, false);
-function setLog() {
+function parseLog(result) {
     var all_iter = result.match(/I\d{4}\s\d{2}:\d{2}:\d{2}\.\d{6}\s+\d+\ssolver.cpp:\d+]\s+Iteration\s+\d+/g)
         .map(function (str) { return str.match(/Iteration \d+/)[0]; })
         .map(function (str) { return str.match(/\d+/)[0]; })
@@ -73,7 +69,7 @@ function setLog() {
     drawCombinedGraph(data);
 }
 function setError() {
-    document.getElementById("list_2").innerText = "This file does not contain log!";
+    document.getElementById("list_2").innerText = "This file is not a log file!";
 }
 function splitIter(iter) {
     var train_iter = [];
@@ -116,7 +112,9 @@ function drawCombinedGraph(data) {
                     position: 'outer-middle'
                 },
                 padding: { bottom: 0 },
-                tick: {}
+                tick: {
+                    format: function (x) { return (Math.pow(x, Math.E)).toFixed(2); }
+                }
             },
             y2: {
                 show: true,
@@ -125,7 +123,7 @@ function drawCombinedGraph(data) {
                     position: 'outer-middle'
                 },
                 min: 0,
-                max: 1,
+                //max: 1,
                 padding: { top: 0, bottom: 0 }
             }
         },
@@ -142,3 +140,6 @@ function drawCombinedGraph(data) {
         }
     });
 }
+var dropZone = document.getElementById('file_drop');
+dropZone.addEventListener('drop', handleFileDrop, false);
+dropZone.addEventListener('dragover', handleDrag, false);

@@ -1,6 +1,6 @@
 /// <reference path="typings/main.d.ts" />
 
-function handleFileOutput(files:FileList, id:string) {
+function displayFileInfo(files:FileList, id:string) {
     let output: string[] = [];
     for (let i = 0; files[i]; ++i) {
         let f = files[i];
@@ -21,12 +21,12 @@ function handleFileDrop(ev:DragEvent) {
     ev.stopPropagation();
     ev.preventDefault();
     let files: FileList = ev.dataTransfer.files;
-    handleFileOutput(files, "list_2");
+    displayFileInfo(files, "list_2");
     if (files[0]) {
         let file = files[0];
         let reader = new FileReader();
         reader.readAsText(file);
-        reader.onload = () => {result = reader.result; setLog();};
+        reader.onload = () => {parseLog(reader.result);};
     }
 }
 
@@ -36,12 +36,7 @@ function handleDrag(ev:DragEvent) {
     ev.dataTransfer.dropEffect = 'copy';
 }
 
-let result:string;
-let dropZone = document.getElementById('file_drop');
-dropZone.addEventListener('drop', handleFileDrop, false);
-dropZone.addEventListener('dragover', handleDrag, false);
-
-function setLog() {
+function parseLog(result: string) {
     let all_iter = result.match(/I\d{4}\s\d{2}:\d{2}:\d{2}\.\d{6}\s+\d+\ssolver.cpp:\d+]\s+Iteration\s+\d+/g)
                          .map((str) => {return str.match(/Iteration \d+/)[0];})
                          .map((str) => {return str.match(/\d+/)[0];})
@@ -80,7 +75,7 @@ function setLog() {
 }
 
 function setError() {
-    document.getElementById("list_2").innerText = "This file does not contain log!";
+    document.getElementById("list_2").innerText = "This file is not a log file!";
 }
 
 function splitIter(iter:number[]) {
@@ -126,7 +121,7 @@ function drawCombinedGraph(data) {
                 },
                 padding: {bottom: 0},
                 tick: {
-                    //format: (x:number) => { return x.toFixed(1); },
+                    format: (x:number) => { return (x**Math.E).toFixed(2); },
                 },
             },
             y2: {
@@ -136,7 +131,7 @@ function drawCombinedGraph(data) {
                     position: 'outer-middle',
                 },
                 min: 0,
-                max: 1,
+                //max: 1,
                 padding: {top: 0, bottom: 0},
             },
         },
@@ -153,3 +148,7 @@ function drawCombinedGraph(data) {
         },
     });
 }
+
+let dropZone = document.getElementById('file_drop');
+dropZone.addEventListener('drop', handleFileDrop, false);
+dropZone.addEventListener('dragover', handleDrag, false);
