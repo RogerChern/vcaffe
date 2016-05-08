@@ -113,7 +113,7 @@ function drawCombinedGraph(data) {
                 },
                 padding: { bottom: 0 },
                 tick: {
-                    format: function (x) { return (Math.pow(x, Math.E)).toFixed(2); }
+                    format: function (x) { return (Math.pow(Math.E, x)).toFixed(2); }
                 }
             },
             y2: {

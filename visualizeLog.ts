@@ -121,7 +121,7 @@ function drawCombinedGraph(data) {
                 },
                 padding: {bottom: 0},
                 tick: {
-                    format: (x:number) => { return (x**Math.E).toFixed(2); },
+                    format: (x:number) => { return (Math.E**x).toFixed(2); },
                 },
             },
             y2: {
