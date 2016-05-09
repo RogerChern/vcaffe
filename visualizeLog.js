@@ -24,13 +24,33 @@ function handleFileDrop(ev) {
         var file = files[0];
         var reader_1 = new FileReader();
         reader_1.readAsText(file);
-        reader_1.onload = function () { parseLog(reader_1.result); };
+        reader_1.onload = function () { plotLog(parseLog(reader_1.result)); };
     }
 }
 function handleDrag(ev) {
     ev.stopPropagation();
     ev.preventDefault();
     ev.dataTransfer.dropEffect = 'copy';
+}
+function plotLog(log_data) {
+    var train_iter = log_data[0], test_iter = log_data[1], train_loss = log_data[2], test_loss = log_data[3], test_accuracy = log_data[4];
+    var col1 = ['loss-train'];
+    var col2 = ['train_iters'];
+    var col3 = ['accuracy-val'];
+    var col4 = ['loss-val'];
+    var col5 = ['val_iters'];
+    col1.push.apply(col1, train_loss.map(function (num) { return Math.log(num); }));
+    col2.push.apply(col2, train_iter);
+    col3.push.apply(col3, test_accuracy);
+    col4.push.apply(col4, test_loss.map(function (num) { return Math.log(num); }));
+    col5.push.apply(col5, test_iter);
+    var data = {
+        'xs': { 'accuracy-val': 'val_iters', 'loss-train': 'train_iters', 'loss-val': 'val_iters' },
+        'axes': { 'accuracy-val': 'y2' },
+        'names': { 'accuracy-val': 'accuracy (val)', 'loss-train': 'loss (train)', 'loss-val': 'loss (val)' },
+        'columns': [col1, col2, col3, col4, col5]
+    };
+    drawCombinedGraph(data);
 }
 function parseLog(result) {
     var all_iter = result.match(/I\d{4}\s\d{2}:\d{2}:\d{2}\.\d{6}\s+\d+\ssolver.cpp:\d+]\s+Iteration\s+\d+/g)
@@ -50,23 +70,7 @@ function parseLog(result) {
         .map(function (str) { return str.match(/\d+(\.\d+)?/)[0]; })
         .map(function (str) { return Number(str); });
     var _a = splitIter(all_iter), train_iter = _a[0], test_iter = _a[1];
-    var col1 = ['loss-train'];
-    var col2 = ['train_iters'];
-    var col3 = ['accuracy-val'];
-    var col4 = ['loss-val'];
-    var col5 = ['val_iters'];
-    col1.push.apply(col1, train_loss.map(function (num) { return Math.log(num); }));
-    col2.push.apply(col2, train_iter);
-    col3.push.apply(col3, test_accuracy);
-    col4.push.apply(col4, test_loss.map(function (num) { return Math.log(num); }));
-    col5.push.apply(col5, test_iter);
-    var data = {
-        'xs': { 'accuracy-val': 'val_iters', 'loss-train': 'train_iters', 'loss-val': 'val_iters' },
-        'axes': { 'accuracy-val': 'y2' },
-        'names': { 'accuracy-val': 'accuracy (val)', 'loss-train': 'loss (train)', 'loss-val': 'loss (val)' },
-        'columns': [col1, col2, col3, col4, col5]
-    };
-    drawCombinedGraph(data);
+    return [train_iter, test_iter, train_loss, test_loss, test_accuracy];
 }
 function setError() {
     document.getElementById("list_2").innerText = "This file is not a log file!";

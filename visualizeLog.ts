@@ -26,7 +26,7 @@ function handleFileDrop(ev:DragEvent) {
         let file = files[0];
         let reader = new FileReader();
         reader.readAsText(file);
-        reader.onload = () => {parseLog(reader.result);};
+        reader.onload = () => {plotLog(parseLog(reader.result));};
     }
 }
 
@@ -36,25 +36,8 @@ function handleDrag(ev:DragEvent) {
     ev.dataTransfer.dropEffect = 'copy';
 }
 
-function parseLog(result: string) {
-    let all_iter = result.match(/I\d{4}\s\d{2}:\d{2}:\d{2}\.\d{6}\s+\d+\ssolver.cpp:\d+]\s+Iteration\s+\d+/g)
-                         .map((str) => {return str.match(/Iteration \d+/)[0];})
-                         .map((str) => {return str.match(/\d+/)[0];})
-                         .map((str) => {return Number(str);})
-    let train_loss = result.match(/I\d{4}\s\d{2}:\d{2}:\d{2}\.\d{6}\s+\d+\ssolver.cpp:\d+]\s+Train net output #0: loss\s=\s+\d+(\.\d+)?/g)
-                           .map((str) => {return str.match(/loss\s=\s+\d+(\.\d+)?/)[0];})
-                           .map((str) => {return str.match(/\d+(\.\d+)?/)[0];})
-                           .map((str) => {return Number(str);})
-    let test_loss = result.match(/I\d{4}\s\d{2}:\d{2}:\d{2}\.\d{6}\s+\d+\ssolver.cpp:\d+]\s+Test net output #1: loss =\s+\d+(\.\d+)?/g)
-                          .map((str) => {return str.match(/loss\s=\s+\d+(\.\d+)?/)[0];})
-                          .map((str) => {return str.match(/\d+(\.\d+)?/)[0];})
-                          .map((str) => {return Number(str);})
-    let test_accuracy = result.match(/I\d{4}\s\d{2}:\d{2}:\d{2}\.\d{6}\s+\d+\ssolver.cpp:\d+]\s+Test net output #0: accuracy =\s+\d+(\.\d+)?/g)
-                              .map((str) => {return str.match(/accuracy =\s+\d+(\.\d+)?/)[0];})
-                              .map((str) => {return str.match(/\d+(\.\d+)?/)[0];})
-                              .map((str) => {return Number(str);})
-    let [train_iter, test_iter] = splitIter(all_iter);
-
+function plotLog(log_data:number[][]) {
+    let [train_iter, test_iter, train_loss, test_loss, test_accuracy] = log_data;
     let col1:any[] = ['loss-train'];
     let col2:any[] = ['train_iters'];
     let col3:any[] = ['accuracy-val'];
@@ -72,6 +55,28 @@ function parseLog(result: string) {
         'columns': [ col1,col2,col3,col4,col5 ]
     };
     drawCombinedGraph(data);
+}
+
+function parseLog(result:string) {
+    let all_iter = result.match(/I\d{4}\s\d{2}:\d{2}:\d{2}\.\d{6}\s+\d+\ssolver.cpp:\d+]\s+Iteration\s+\d+/g)
+                         .map((str) => {return str.match(/Iteration \d+/)[0];})
+                         .map((str) => {return str.match(/\d+/)[0];})
+                         .map((str) => {return Number(str);})
+    let train_loss = result.match(/I\d{4}\s\d{2}:\d{2}:\d{2}\.\d{6}\s+\d+\ssolver.cpp:\d+]\s+Train net output #0: loss\s=\s+\d+(\.\d+)?/g)
+                           .map((str) => {return str.match(/loss\s=\s+\d+(\.\d+)?/)[0];})
+                           .map((str) => {return str.match(/\d+(\.\d+)?/)[0];})
+                           .map((str) => {return Number(str);})
+    let test_loss = result.match(/I\d{4}\s\d{2}:\d{2}:\d{2}\.\d{6}\s+\d+\ssolver.cpp:\d+]\s+Test net output #1: loss =\s+\d+(\.\d+)?/g)
+                          .map((str) => {return str.match(/loss\s=\s+\d+(\.\d+)?/)[0];})
+                          .map((str) => {return str.match(/\d+(\.\d+)?/)[0];})
+                          .map((str) => {return Number(str);})
+    let test_accuracy = result.match(/I\d{4}\s\d{2}:\d{2}:\d{2}\.\d{6}\s+\d+\ssolver.cpp:\d+]\s+Test net output #0: accuracy =\s+\d+(\.\d+)?/g)
+                              .map((str) => {return str.match(/accuracy =\s+\d+(\.\d+)?/)[0];})
+                              .map((str) => {return str.match(/\d+(\.\d+)?/)[0];})
+                              .map((str) => {return Number(str);})
+    let [train_iter, test_iter] = splitIter(all_iter);
+    
+    return [train_iter, test_iter, train_loss, test_loss, test_accuracy];
 }
 
 function setError() {
