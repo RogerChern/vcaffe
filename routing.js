@@ -13,7 +13,7 @@ function parseJSON(data) {
     for (let fileKey in files) {
         result = files[fileKey].content;
     }
-    parseLog(result);
+    plotLog(parseLog(result));
 }
 
 let router = Router(routes);
