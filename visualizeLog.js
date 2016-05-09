@@ -115,7 +115,7 @@ function drawCombinedGraph(data) {
                     text: 'Loss',
                     position: 'outer-middle'
                 },
-                padding: { bottom: 0 },
+                padding: { bottom: 10 },
                 tick: {
                     format: function (x) { return (Math.pow(Math.E, x)).toFixed(2); }
                 }
@@ -128,7 +128,7 @@ function drawCombinedGraph(data) {
                 },
                 min: 0,
                 //max: 1,
-                padding: { top: 0, bottom: 0 }
+                padding: { top: 10, bottom: 10 }
             }
         },
         grid: { x: { show: true } },
