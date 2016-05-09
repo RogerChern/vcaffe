@@ -1,0 +1,30 @@
+#file_drop {
+    border: 3px dashed #bbb;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    padding: 60px;
+    text-align: center;
+    font: 40pt bold;
+    color: #bbb;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+.col-8 {
+    width: 66.666666%;
+}
+
+.col-6 {
+    width: 50%;
+}
+
+.col-4 {
+    width: 33.333333%;
+}
+
+.col-3 {
+    width: 25%;
+}
