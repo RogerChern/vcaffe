@@ -76,8 +76,18 @@ function parseLog(result:string) {
                               .map((str) => {return Number(str);})
     let [train_iter, test_iter] = splitIter(all_iter);
     
+    let train_iter_n: number[];
+    let train_loss_n: number[];
+    let test_iter_n: number[];
+    let test_loss_n: number[];
+    let test_accuracy_n: number[];
+    
+    train_loss = train_loss.map((val: number) => {return val == 0 ? 87 : val;});
+    test_loss = test_loss.map((val: number) => {return val == 0 ? 87 : val;});
+    
     return [train_iter, test_iter, train_loss, test_loss, test_accuracy];
 }
+
 
 function setError() {
     document.getElementById("list_2").innerText = "This file is not a log file!";
