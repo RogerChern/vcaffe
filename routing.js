@@ -3,6 +3,7 @@ let routes = {
 };
 
 function handleGist(gistID) {
+    $("#file_drop").hide();
     let url = "https://api.github.com/gists/" + gistID;
     $.getJSON(url, parseJSON);
 }
