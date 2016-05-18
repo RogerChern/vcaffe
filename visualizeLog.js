@@ -27,6 +27,19 @@ function handleFileDrop(ev) {
         reader_1.onload = function () { plotLog(parseLog(reader_1.result)); };
     }
 }
+function handleFileSelect(ev) {
+    ev.stopPropagation();
+    ev.preventDefault();
+    var target = (ev.target);
+    var files = target.files;
+    displayFileInfo(files, "list_2");
+    if (files[0]) {
+        var file = files[0];
+        var reader_2 = new FileReader();
+        reader_2.readAsText(file);
+        reader_2.onload = function () { plotLog(parseLog(reader_2.result)); };
+    }
+}
 function handleDrag(ev) {
     ev.stopPropagation();
     ev.preventDefault();
@@ -154,3 +167,5 @@ function drawCombinedGraph(data) {
 var dropZone = document.getElementById('file_drop');
 dropZone.addEventListener('drop', handleFileDrop, false);
 dropZone.addEventListener('dragover', handleDrag, false);
+var selectTab = document.getElementById('file_select');
+selectTab.addEventListener('change', handleFileSelect, false);

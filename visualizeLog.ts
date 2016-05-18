@@ -30,6 +30,20 @@ function handleFileDrop(ev:DragEvent) {
     }
 }
 
+function handleFileSelect(ev:Event) {
+    ev.stopPropagation();
+    ev.preventDefault();
+    let target = <HTMLInputElement>(ev.target);
+    let files = target.files;
+    displayFileInfo(files, "list_2");
+    if (files[0]) {
+        let file = files[0];
+        let reader = new FileReader();
+        reader.readAsText(file);
+        reader.onload = () => {plotLog(parseLog(reader.result));};
+    }
+}
+
 function handleDrag(ev:DragEvent) {
     ev.stopPropagation();
     ev.preventDefault();
@@ -167,3 +181,5 @@ function drawCombinedGraph(data) {
 let dropZone = document.getElementById('file_drop');
 dropZone.addEventListener('drop', handleFileDrop, false);
 dropZone.addEventListener('dragover', handleDrag, false);
+let selectTab = document.getElementById('file_select');
+selectTab.addEventListener('change', handleFileSelect, false);
