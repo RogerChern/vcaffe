@@ -5,6 +5,7 @@ let routes = {
 function handleGist(gistID) {
     $("#file_drop").hide();
     let url = "https://api.github.com/gists/" + gistID;
+    $("body").addClass("loading");
     $.getJSON(url, parseJSON);
 }
 
@@ -14,6 +15,7 @@ function parseJSON(data) {
     for (let fileKey in files) {
         result = files[fileKey].content;
     }
+    $("body").removeClass("loading");
     plotLog(parseLog(result));
 }
 
