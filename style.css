@@ -3,57 +3,14 @@
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
     border-radius: 10px;
-    padding: 55px;
+    padding: 40px;
     text-align: center;
     font: 20pt bold;
     color: #bbb;
-    display: inline;
-    margin: 10px;
 }
 
-#file_select {
-    border: 3px dashed #bbb;
-    -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
-    border-radius: 10px;
+.my_button {
     padding: 60px;
-    text-align: center;
-    font: 20pt bold;
-    color: #bbb;
-    display: inline;
-    margin: 10px 10px 10px 20px;
-}
-
-h1 {
-    margin-bottom: 20px;
-}
-
-.inline {
-    display: inline;
-}
-
-.float {
-    float: left;
-}
-
-.col-12 {
-    width: 100%;
-}
-
-.col-8 {
-    width: 66.666666%;
-}
-
-.col-6 {
-    width: 50%;
-}
-
-.col-4 {
-    width: 33.333333%;
-}
-
-.col-3 {
-    width: 25%;
 }
 
 /* Start by setting display:none to make this hidden.

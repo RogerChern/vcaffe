@@ -1,18 +1,37 @@
-<html>
+<html lang="en">
     <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        
         <title>vCaffe - a caffe log file visualizer</title>
         <link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAACJqckAAAAAAP///wBZeJYAJ01zAJHd6wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAERERERERERERERERERERERERERERERERERREREERERERQiIiJBERERQlJSUlQRERFFJSUlJBEREUJSUlJURBERQiIiIiQUERFCREREJEQREUQAAABEERERFEREREERERERERERERERERExExExERERExExExERERERMRMRMRERH//wAA//8AAP//AADgfwAAwD8AAIAfAACAHwAAgAcAAIAXAACABwAAgB8AAMA/AAD//wAA7b8AANt/AADtvwAA" rel="icon" type="image/x-icon" />
         <link href="c3.min.css" rel="stylesheet" type="text/css">
         <link href="style.css" rel="stylesheet" type="text/css">
+        <link href="bootstrap.min.css" rel="stylesheet" type="text/css">
     </head>
+    
     <body class="loading">
         <div class="modal"></div>
-        <h1 align="center">vCaffe - A caffe log file visualizer</h1>
-        <div id="main" style="display:none;">
-            <div class="col-6 float" id="file_drop">Drag log file here</div>
-            <input class="col-4 float" id="file_select" type="file">
+        <div class="hidden-xs-down">
+            <h1 align="center"><label class="label label-danger">vCaffe</label> a caffe log file visualizer</h1>
         </div>
-        <div class="float" id="list_2"></div>
+        <div class="hidden-sm-up">
+            <h1 align="center"><label class="label label-danger">vCaffe</label></h1>
+        </div>
+        <div class="container-fluid" id="main" style="display:none;">
+            <div class="col-md-12 hidden-xs-down" id="file_drop">Drag log file here
+                <div class="row">
+                    <div class="col-md-4 col-md-offset-4">
+                        <label class="label label-pill label-info" for="file_select">
+                            <input id="file_select" type="file" style="display:none;">
+                            Choose
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12" id="list_2"></div>
         <div class="" id="chart"><div>
         
         <script src="d3.min.js"></script>
