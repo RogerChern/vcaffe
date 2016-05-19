@@ -150,7 +150,7 @@ function drawCombinedGraph(data) {
                 },
                 padding: {bottom: 10},
                 tick: {
-                    format: (x:number) => { return (Math.E**x).toString() },
+                    format: (x:number) => { return (Math.E**x).toFixed(6); },
                 },
             },
             y2: {
