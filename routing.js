@@ -1,12 +1,15 @@
 let routes = {
     "/gist/:gistID": handleGist,
+    "/": handlePlain,
 };
 
+function handlePlain() {
+    $("#main").show();
+    $("body").removeClass("loading");
+}
+
 function handleGist(gistID) {
-    $("#file_drop").hide();
-    $("#file_select").hide();
     let url = "https://api.github.com/gists/" + gistID;
-    $("body").addClass("loading");
     $.getJSON(url, parseJSON);
 }
 
@@ -21,4 +24,4 @@ function parseJSON(data) {
 }
 
 let router = Router(routes);
-router.init();
+router.init("/");
