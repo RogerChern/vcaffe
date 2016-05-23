@@ -70,13 +70,13 @@ function parseLog(result) {
         .map(function (str) { return str.match(/Iteration \d+/)[0]; })
         .map(function (str) { return str.match(/\d+/)[0]; })
         .map(function (str) { return Number(str); });
-    var train_loss = result.match(/I\d{4}\s\d{2}:\d{2}:\d{2}\.\d{6}\s+\d+\ssolver.cpp:\d+]\s+Train net output #0: loss\s=\s+\d+(\.\d+)?/g)
-        .map(function (str) { return str.match(/loss\s=\s+\d+(\.\d+)?/)[0]; })
-        .map(function (str) { return str.match(/\d+(\.\d+)?/)[0]; })
+    var train_loss = result.match(/I\d{4}\s\d{2}:\d{2}:\d{2}\.\d{6}\s+\d+\ssolver.cpp:\d+]\s+Train net output #0: loss = \d+(\.\d+)?([eE][+-]\d+)?/g)
+        .map(function (str) { return str.match(/loss = \d+(\.\d+)?([eE][+-]\d+)?/)[0]; })
+        .map(function (str) { return str.match(/\d+(\.\d+)?([eE][+-]\d+)?/)[0]; })
         .map(function (str) { return Number(str); });
-    var test_loss = result.match(/I\d{4}\s\d{2}:\d{2}:\d{2}\.\d{6}\s+\d+\ssolver.cpp:\d+]\s+Test net output #1: loss =\s+\d+(\.\d+)?/g)
-        .map(function (str) { return str.match(/loss\s=\s+\d+(\.\d+)?/)[0]; })
-        .map(function (str) { return str.match(/\d+(\.\d+)?/)[0]; })
+    var test_loss = result.match(/I\d{4}\s\d{2}:\d{2}:\d{2}\.\d{6}\s+\d+\ssolver.cpp:\d+]\s+Test net output #1: loss = \d+(\.\d+)?([eE][+-]\d+)?/g)
+        .map(function (str) { return str.match(/loss = \d+(\.\d+)?([eE][+-]\d+)?/)[0]; })
+        .map(function (str) { return str.match(/\d+(\.\d+)?([eE][+-]\d+)?/)[0]; })
         .map(function (str) { return Number(str); });
     var test_accuracy = result.match(/I\d{4}\s\d{2}:\d{2}:\d{2}\.\d{6}\s+\d+\ssolver.cpp:\d+]\s+Test net output #0: accuracy =\s+\d+(\.\d+)?/g)
         .map(function (str) { return str.match(/accuracy =\s+\d+(\.\d+)?/)[0]; })
