@@ -96,8 +96,15 @@ function parseLog(result:string) {
     let test_loss_n: number[];
     let test_accuracy_n: number[];
     
-    train_loss = train_loss.map((val: number) => {return val == 0 ? 87 : val;});
-    test_loss = test_loss.map((val: number) => {return val == 0 ? 87 : val;});
+    for (let i = 0; i < train_loss.length / 10; ++i) {
+        if (train_loss[i] == 0 && (i == 0 || train_loss[i-1] == 90)) train_loss[i] = 90;
+    }
+    for (let i = 0; i < test_loss.length / 10; ++i) {
+        if (test_loss[i] == 0 && (i == 0 || test_loss[i-1] == 90)) test_loss[i] = 90;
+    }
+    
+    train_loss = train_loss.map((val: number) => {return val == 0 ? 1e-10 : val;});
+    test_loss = test_loss.map((val: number) => {return val == 0 ? 1e-10 : val;});
     
     return [train_iter, test_iter, train_loss, test_loss, test_accuracy];
 }
